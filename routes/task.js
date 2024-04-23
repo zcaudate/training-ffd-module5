@@ -28,24 +28,50 @@ function buildTask(data) {
     },
 
     // TODO: status { status }
+    status: data.status,
 
     // TODO: intent { 'order' }
+    intent: "order",
 
     // TODO: priority { priority }
+    priority: data.priority,
 
     // TODO: code { code: 'fulfill', display: 'Fulfill the focal request', system: 'http://hl7.org/fhir/CodeSystem/task-code' }
+    code: {
+      coding: [
+        {
+          code: "fulfill",
+          display: "Fulfill the focal request",
+          system: "http://hl7.org/fhir/CodeSystem/task-code"
+        }
+      ]
+    },
 
     // TODO: description { description }
+    description: data.description,
 
     // TODO: focus { servicerequest_id }
+    focus: {
+      reference: "ServiceRequest/" + data.servicerequest_id
+    },
 
     // TODO: for { patient_id }
+    for: {
+      reference: "Patient/" + data.patient_id
+    },
 
     // TODO: authoredOn { authoredOn }
+    authoredOn: data.authoredOn,
 
     // TODO: requester { placer_practitionerrole_id }
+    requester: {
+      reference: "PractitionerRole/" + data.placer_practitionerrole_id
+    },
 
     // TODO: owner { filler_organization_id }
+    owner: {
+      reference: "Organization/" + data.filler_organization_id
+    }
   }
 
   // conditionally populate when performerType provided
@@ -55,6 +81,8 @@ function buildTask(data) {
         {
           coding: [
             {
+              code: data.performerType_code,
+              display: data.performerType_display,
               system: "http://snomed.info/sct"
             }
           ]
